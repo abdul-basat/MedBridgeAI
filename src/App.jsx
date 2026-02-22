@@ -685,7 +685,7 @@ Not a substitute for professional medical judgment
           {/* Mic Button / Browser Compatibility */}
           {speechSupported ? (
             <button
-              className={`mic - btn ${isRecording ? 'mic-recording' : ''} `}
+              className={`mic-btn ${isRecording ? 'mic-recording' : ''}`}
               onClick={toggleRecording}
               title={isRecording ? 'Click to stop recording' : 'Click to dictate your clinical notes'}
             >
@@ -701,17 +701,26 @@ Not a substitute for professional medical judgment
 
           {micError && <div className="mic-error">{micError}</div>}
 
-          <div className="textarea-container">
+          <div className="clinical-console">
+            <div className="console-header">
+              <div className="console-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span className="console-title">INPUT_STREAM v2.0</span>
+            </div>
             <textarea
               ref={textareaRef}
-              className={`styled - textarea ${isRecording ? 'textarea-recording' : ''} `}
+              className={`styled-textarea ${isRecording ? 'textarea-recording' : ''}`}
               placeholder={"Paste or type clinical notes here...\n\nExample:\npt 45M c/o chest pain 3d, hx HTN,\nsmoker 20yr, diaphoresis +,\ngave ASA 325mg, refer cardio"}
               value={rawNotes}
               onChange={(e) => setRawNotes(e.target.value)}
             />
-            {rawNotes && !isRecording && (
-              <button className="clear-btn" onClick={handleClear}>✕ Clear</button>
-            )}
+            <div className="console-footer">
+              <span className="char-count">{rawNotes.length} characters</span>
+              {rawNotes && !isRecording && (
+                <button className="console-clear" onClick={handleClear}>✕ RESET CONSOLE</button>
+              )}
+            </div>
           </div>
 
           {/* Interim preview */}
@@ -737,7 +746,7 @@ Not a substitute for professional medical judgment
 
           <button
             id="generate-btn"
-            className={`generate - btn ${isLoading ? 'loading' : ''} `}
+            className={`generate-btn ${isLoading ? 'loading' : ''}`}
             onClick={runDoctorMode}
             disabled={!rawNotes.trim() || isLoading}
           >
@@ -1041,28 +1050,83 @@ Not a substitute for professional medical judgment
     border-left: 2px solid rgba(248, 81, 73, 0.5);
   }
 
-         /* TEXTAREA CONTAINER */
-         .textarea-container {
-    position: relative;
+         /* CLINICAL CONSOLE REDESIGN */
+         .clinical-console {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
   }
-
-         /* CLEAR BUTTON */
-         .clear-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: transparent;
+         .console-header {
+    background-color: #21262d;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #30363d;
+  }
+         .console-dots {
+    display: flex;
+    gap: 4px;
+  }
+         .console-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #30363d;
+  }
+         .console-dots span:nth-child(1) { background-color: #f85149; opacity: 0.6; }
+         .console-dots span:nth-child(2) { background-color: #d29922; opacity: 0.6; }
+         .console-dots span:nth-child(3) { background-color: #3fb950; opacity: 0.6; }
+         .console-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #8b949e;
+    letter-spacing: 1px;
+  }
+         .clinical-console .styled-textarea {
     border: none;
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color: transparent;
+    min-height: 240px;
+  }
+         .console-footer {
+    background-color: #0d1117;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #21262d;
+  }
+         .char-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #3d444d;
+  }
+         .console-clear {
+    background: transparent;
+    border: 1px solid #30363d;
     color: #656d76;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 4px;
     cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 3px;
-    z-index: 2;
+    transition: all 0.2s;
   }
-         .clear-btn:hover {
+         .console-clear:hover {
     color: #f85149;
+    border-color: #f85149;
+    background-color: rgba(248, 81, 73, 0.05);
+  }
+         .clinical-console:focus-within {
+    border-color: #4493f8;
+    box-shadow: 0 0 0 1px #4493f8, 0 8px 24px rgba(68, 147, 248, 0.15);
   }
 
          /* MIC BUTTON */
