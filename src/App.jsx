@@ -805,13 +805,13 @@ Not a substitute for professional medical judgment
 
           <div className="tabs">
             <button
-              className={`tab ${activeTab === 'soap' ? 'active-tab' : ''} `}
+              className={`tab ${activeTab === 'soap' ? 'active-tab' : ''}`}
               onClick={() => setActiveTab('soap')}
             >
               SOAP Note
             </button>
             <button
-              className={`tab ${activeTab === 'flags' ? 'active-tab' : ''} `}
+              className={`tab ${activeTab === 'flags' ? 'active-tab' : ''}`}
               onClick={() => setActiveTab('flags')}
             >
               ⚠️ Flags
@@ -819,7 +819,7 @@ Not a substitute for professional medical judgment
               {hasZeroFlags && <span className="flags-ok">✓</span>}
             </button>
             <button
-              className={`tab ${activeTab === 'summary' ? 'active-tab' : ''} `}
+              className={`tab ${activeTab === 'summary' ? 'active-tab' : ''}`}
               onClick={() => setActiveTab('summary')}
             >
               Patient Summary
